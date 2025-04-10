@@ -12,11 +12,12 @@ class IObserver {
 
 class Watcher:public IObserver {
     public:
-        explicit Watcher(ISubject &msubject, std::string m_name);
+        explicit Watcher(ISubject &msubject, int message, std::string m_name);
         ~Watcher() ;
         void OnNotify();
 		
     private:
         std::string name;
+        int mMessage;
         ISubject &subject;
 };

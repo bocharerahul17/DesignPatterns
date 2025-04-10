@@ -13,13 +13,23 @@ Code, Compile, Run and Debug online from anywhere in world.
 int main()
 {
     SomeSubject subject;
-    Watcher Watcher1(subject, "Watcher1");
-    Watcher Watcher2(subject, "Watcher2");
+    Watcher Watcher1(subject,SomeSubject::PLAYSOUND, "Watcher1");
+    Watcher Watcher2(subject,SomeSubject::PLAYSOUND , "Watcher2");
     {
-    Watcher Watcher3(subject, "Watcher3");
-    }
+    Watcher Watcher3(subject, SomeSubject::LOG,"Watcher3");
+    // std::cout<<"Added Watcher 3"<<std::endl;
+}
+    
     
     subject.Notifyall();
+    
+    std::cout<< std::endl;
+    
+    subject.Notifyall();
+    
+    subject.Notify(SomeSubject::LOG);
+    
+    
 
     return 0;
 }
