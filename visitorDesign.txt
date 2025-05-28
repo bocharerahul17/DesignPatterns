@@ -1,0 +1,74 @@
+/******************************************************************************
+
+Welcome to GDB Online.
+GDB online is an online compiler and debugger tool for C, C++, Python, Java, PHP, Ruby, Perl,
+C#, OCaml, VB, Swift, Pascal, Fortran, Haskell, Objective-C, Assembly, HTML, CSS, JS, SQLite, Prolog.
+Code, Compile, Run and Debug online from anywhere in world.
+
+*******************************************************************************/
+#include <iostream>
+#include <vector>
+struct Orc;
+struct Goblin;
+
+struct MosterVisitor{
+    virtual ~MosterVisitor() = default;
+    virtual void visit(const Orc& orc) const = 0;
+    virtual void visit(const Goblin& goblin) const =0;
+};
+
+struct DrawMonsterVisitor : public MosterVisitor {
+    void visit(const Orc& orc) const override {
+        std::cout<<"Drawing Orc from MosterVisitor\n";
+    }
+    
+    void visit(const Goblin& goblin) const override {
+        std::cout<<"Drawing Goblin from MosterVisitor\n";
+    }
+};
+
+
+struct Monster {
+   virtual ~Monster() {}
+   virtual void accept(const MosterVisitor& visitor)=0;
+    
+};
+
+struct Orc: public Monster {
+    Orc() { std::cout<<"Orc:Orc()\n";}
+        void accept(const MosterVisitor &visitor) override {
+            std::cout<<"Orc::accept\n";
+            visitor.visit(*this);
+            
+        }
+    };
+
+struct Goblin: public Monster {
+    Goblin() {std::cout<<"Goblin:Goblin()\n";}
+        void accept(const MosterVisitor &visitor) override {
+            std::cout<<"Orc::accept\n";
+            visitor.visit(*this); 
+        }
+    };
+
+void drawallmonsters(const std::vector<Monster*>& monsters){
+    for(auto const &m: monsters) {
+        m->accept(DrawMonsterVisitor{});
+    }
+}
+
+int main()
+{
+    std::vector<Monster*>monsters;
+    monsters.emplace_back(new Orc);
+    monsters.emplace_back(new Goblin);
+    
+    drawallmonsters(monsters);
+    
+    Monster * mymoster = new Orc;
+    DrawMonsterVisitor dmv;
+    
+    mymoster->accept(dmv);
+
+    return 0;
+}
